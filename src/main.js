@@ -7,9 +7,9 @@ import config from 'config'
 const GPT_MODEL = 'gpt-4o'
 const PROMPT_1 = 'Сделай краткую выжимку и вывод простыми словами. Если контекcт про экономику, дополнительно дай оценку, положительно или отрицательно это влияет на крипторынок и экономику США '
 const client = new OpenAI({
-    apiKey: config.get('OPENAI_API_KEY'), // Вставьте сюда апи ключ 
+    apiKey: config.get('OPENAI_API_KEY'), 
 });
-const bot = new Telegraf(config.get('apiKey'), {      // вместо 'apiKey' вставьте апи ключ вашего бота тг  
+const bot = new Telegraf(config.get('apiKey'), {     
     handlerTimeout: Infinity
 })
 bot.on(message, async (ctx) => {

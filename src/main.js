@@ -5,17 +5,15 @@ import OpenAI from 'openai'
 import config from 'config'
 
 const GPT_MODEL = 'gpt-4o'
-const PROMPT_1 = 'Сделай краткую выжимку и вывод простыми словами. Если контекcт про экономику, дополнительно дай оценку, положительно или отрицательно это влияет на крипторынок и экономику США '
+const PROMPT_1 = 'Сделай краткую выжимку. Если контекcт про экономику, сделай оценочный вывод простыми словами, положительно или отрицательно это влияет на крипторынок и экономику США. Если есть ссылка внутри текста то открой и сделай ее выжимку'
 const client = new OpenAI({
-    apiKey: config.get('OPENAI_API_KEY'), // Вставьте сюда апи ключ 
+    apiKey: config.get('OPENAI_API_KEY'),
 });
-const bot = new Telegraf(config.get('apiKey'), {      // вместо 'apiKey' вставьте апи ключ вашего бота тг  
+const bot = new Telegraf(config.get('apiKey'), {
     handlerTimeout: Infinity
 })
 bot.on(message, async (ctx) => {
-    let channelMsg = ''
-    typeof ctx.message.caption === 'string' ? channelMsg = ctx.message.caption : false
-    typeof ctx.message.text === 'string' ? channelMsg = ctx.message.text : false
+    const channelMsg = typeof ctx.message.caption === 'string' || ctx.message.text === 'string' ? ctx.message.caption : ctx.message.text
     const loader = new Loader(ctx)
     loader.show()
     try {
@@ -37,7 +35,6 @@ bot.on(message, async (ctx) => {
     }
 })
 bot.launch()
-
 // Enable graceful stop
 process.once('SIGINT', () => bot.stop('SIGINT'))
 process.once('SIGTERM', () => bot.stop('SIGTERM'))

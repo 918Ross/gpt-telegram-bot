@@ -13,10 +13,8 @@ const bot = new Telegraf(config.get('apiKey'), {
     handlerTimeout: Infinity
 })
 bot.on(message, async (ctx) => {
-    console.log(ctx)
 
     const channelMsg = typeof ctx.message.caption === 'string' ? ctx.message.caption : ctx.message.text
-    console.log(channelMsg)
     const loader = new Loader(ctx)
     loader.show()
     try {
